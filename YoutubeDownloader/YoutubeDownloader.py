@@ -1,7 +1,7 @@
 import youtube_dl
 import ffmpeg
-import eyed3
 import os
+import music_tag
 
 class FileFormat:
     MP3 = 1
@@ -59,13 +59,9 @@ def download(desc: DownloadDesc):
         os.rename(temp_file, output_file)
 
         # tag file
-        file = eyed3.load(output_file)
-        if not file.tag:
-            file.initTag()
+        file = music_tag.load_file(output_file)
+        file['title'] = desc.songname
+        file['']
 
-        file.tag.title = desc.songname
-        file.tag.artist = desc.artist
-
-        file.tag.save()
 
 

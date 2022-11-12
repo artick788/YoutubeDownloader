@@ -1,4 +1,5 @@
 from YoutubeDownloader import YoutubeDownloader as ydl
+import music_tag
 
 
 def main():
@@ -12,4 +13,9 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    file = music_tag.load_file("Skrillex - Tears.wav")
+    file['tracktitle'] = "Tears"
+    file['artist'] = "Skrillex"
+
+    file.save()
+#     main()
