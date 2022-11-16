@@ -1,7 +1,7 @@
 import youtube_dl
 import ffmpeg
 import os
-import music_tag
+import taglib
 
 class FileFormat:
     MP3 = 1
@@ -59,9 +59,10 @@ def download(desc: DownloadDesc):
         os.rename(temp_file, output_file)
 
         # tag file
-        file = music_tag.load_file(output_file)
-        file['title'] = desc.songname
-        file['']
+        file = taglib.File(output_file)
+        file.tags["ARTIST"] = desc.artist
+        file.tags["TITLE"] = desc.songname
+        file.save()
 
 
 
