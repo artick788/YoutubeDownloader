@@ -1,4 +1,4 @@
-from .Mp3File import mp3_download_from_youtube
+from .Mp3File import mp3_download_from_youtube, mp3_adjust_volume
 from .WavFile import wav_download_from_youtube
 from .File import MusicFile, FileFormat
 import os, glob, shutil
@@ -9,7 +9,10 @@ class MusicFactory:
     BINARIES: dict = {
         "FFMPEG": "ffmpeg.exe",
         "FFPLAY": "ffplay.exe",
-        "FFPROBE": "ffprobe.exe"
+        "FFPROBE": "ffprobe.exe",
+        "MP3GAIN": "mp3gain.exe",
+        "WAVGAIN": "wavgain.exe",
+        "VORBISGAIN": "vorbisgain.exe",
     }
 
     def __init__(self):
@@ -53,6 +56,15 @@ class MusicFactory:
     def tag_file(self, file_path, music_file: MusicFile):
         if self.__is_setup:
             music_file.save_tags(file_path)
+        else:
+            raise Exception("Factory is not setup properly")
+
+    def adjust_volume(self, file_path, format: FileFormat):
+        if self.__is_setup:
+            if format == FileFormat.WAV:
+                pass
+            elif format == FileFormat.MP3:
+                mp3_adjust_volume(file_path)
         else:
             raise Exception("Factory is not setup properly")
 

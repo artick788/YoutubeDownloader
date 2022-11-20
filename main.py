@@ -10,6 +10,7 @@ def main():
 
     factory = mf.MusicFactory()
     factory.download_from_youtube(url, song)
+    factory.adjust_volume("Imanbek - Belly Dancer.mp3", mf.FileFormat.MP3)
 
 
 if __name__ == '__main__':
