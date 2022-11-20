@@ -1,15 +1,15 @@
-from YoutubeDownloader import YoutubeDownloader as ydl
-import taglib
+from YoutubeDownloader import MusicFactory as mf
 
 
 def main():
-    desc = ydl.DownloadDesc()
-    desc.file_format = ydl.FileFormat.WAV
-    desc.url = "https://youtu.be/DxzdRri8o6o"
-    desc.artist = "Zedd"
-    desc.songname = "Squid game & Do It To It"
+    song = mf.MusicFile()
+    song.artist = "Imanbek"
+    song.format = mf.FileFormat.MP3
+    song.songname = "Belly Dancer"
+    url: str = "https://youtu.be/bEacVcAtiKU"
 
-    ydl.download(desc)
+    factory = mf.MusicFactory()
+    factory.download_from_youtube(url, song)
 
 
 if __name__ == '__main__':
