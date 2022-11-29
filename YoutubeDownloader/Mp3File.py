@@ -48,7 +48,6 @@ def mp3_download_from_youtube(url: str, file: MusicFile) -> str:
         except:
             print("MP3 download failed: no further details, \nRetrying...")
 
-
     return output_file
 
 

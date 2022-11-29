@@ -3,14 +3,13 @@ from YoutubeDownloader import MusicFactory as mf
 
 def main():
     song = mf.MusicFile()
-    song.artist = "Imanbek"
-    song.format = mf.FileFormat.MP3
-    song.songname = "Belly Dancer"
-    url: str = "https://youtu.be/bEacVcAtiKU"
+    song.format = mf.FileFormat.WAV
+    song.artist = "The Opposites"
+    song.songname = "Thunder"
+    url: str = "https://youtu.be/qTkRehr3iGI"
 
     factory = mf.MusicFactory()
     factory.download_from_youtube(url, song)
-    factory.adjust_volume("Imanbek - Belly Dancer.mp3", mf.FileFormat.MP3)
 
 
 if __name__ == '__main__':
