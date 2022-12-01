@@ -1,3 +1,4 @@
+import uuid
 from .File import *
 
 
@@ -9,10 +10,12 @@ def mp3_adjust_volume(file_path: str):
 def mp3_download_from_youtube(url: str, file: MusicFile) -> str:
     output_file: str = file.artist + " - " + file.songname + ".mp3"
 
+    rand = str(uuid.uuid4())
+
     options = {
         'format': 'bestaudio/best',
         'keepvideo': False,
-        'outtmpl': 'output.%(ext)s',
+        'outtmpl': 'output' + rand + '.%(ext)s',
         'extractaudio': True,
         'addmetadata': True,
         'prefer-ffmpeg': True,
@@ -27,11 +30,12 @@ def mp3_download_from_youtube(url: str, file: MusicFile) -> str:
         try:
             with youtube_dl.YoutubeDL(options) as ydl:
                 ydl.download([url])
-                stream = ffmpeg.input('output.m4a')
-                stream = ffmpeg.output(stream, "output.mp3")
+                temp_name: str = 'output' + rand
+                stream = ffmpeg.input(temp_name + '.m4a')
+                stream = ffmpeg.output(stream, temp_name + ".mp3")
 
                 # rename
-                os.rename("output.mp3", output_file)
+                os.rename(temp_name + ".mp3", output_file)
 
                 # tag file
                 file.save_tags(output_file)

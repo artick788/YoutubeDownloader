@@ -1,7 +1,10 @@
+import copy
+
 from .Mp3File import mp3_download_from_youtube, mp3_adjust_volume
 from .WavFile import wav_download_from_youtube
 from .File import MusicFile, FileFormat
 import os, glob, shutil
+from concurrent.futures import ThreadPoolExecutor
 
 
 class MusicFactory:
@@ -18,6 +21,10 @@ class MusicFactory:
     def __init__(self):
         self.__is_setup: bool = False
         self.__check_binaries()
+        self.__thread_pool = ThreadPoolExecutor(max_workers=5, thread_name_prefix="MusicFactory")
+
+    def __del__(self):
+        self.__thread_pool.shutdown(wait=True)
 
     def __check_binaries(self):
         # check if binaries are in root
@@ -44,12 +51,14 @@ class MusicFactory:
             else:
                 raise Exception("Binaries not found")
 
-    def download_from_youtube(self, url: str, music_file: MusicFile) -> str:
+    def download_from_youtube(self, url: str, music_file: MusicFile):
         if self.__is_setup:
+            c_url = copy.deepcopy(url)
+            c_music_file = copy.deepcopy(music_file)
             if music_file.format == FileFormat.WAV:
-                return wav_download_from_youtube(url, music_file)
+                self.__thread_pool.submit(wav_download_from_youtube, c_url, c_music_file)
             elif music_file.format == FileFormat.MP3:
-                return mp3_download_from_youtube(url, music_file)
+                self.__thread_pool.submit(mp3_download_from_youtube, c_url, c_music_file)
         else:
             raise Exception("Factory is not setup properly")
 
