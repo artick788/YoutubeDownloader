@@ -34,7 +34,9 @@ def fast_download():
         renderer.process_inputs()
         imgui.new_frame()
 
-        imgui.begin("YoutubeDownloader")
+        imgui.set_next_window_size(800, 600)
+        imgui.set_next_window_position(0, 0)
+        imgui.begin("YoutubeDownloader", False, imgui.WINDOW_NO_RESIZE | imgui.WINDOW_NO_MOVE)
         url = imgui.input_text("URL", url, 256)[1]
         song.artist = imgui.input_text("Artist", song.artist, 256)[1]
         song.songname = imgui.input_text("Songname", song.songname, 256)[1]
