@@ -24,7 +24,7 @@ def fast_download():
     renderer = GlfwRenderer(window)
 
     song = mf.MusicFile()
-    song.format = mf.FileFormat.WAV
+    song.format = mf.FileFormat.MP3
     url: str = ""
     while not glfw.window_should_close(window):
         gl.glClearColor(0.45, 0.55, 0.60, 1)
@@ -40,6 +40,9 @@ def fast_download():
         url = imgui.input_text("URL", url, 256)[1]
         song.artist = imgui.input_text("Artist", song.artist, 256)[1]
         song.songname = imgui.input_text("Songname", song.songname, 256)[1]
+
+
+
         if imgui.button("Download"):
             factory.download_from_youtube(url, song)
             url = ""
