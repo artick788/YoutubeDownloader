@@ -1,4 +1,6 @@
 import uuid
+
+import yt_dlp
 from .File import *
 
 
@@ -17,7 +19,6 @@ def mp3_download_from_youtube(url: str, file: MusicFile) -> str:
         'keepvideo': False,
         'outtmpl': 'output' + rand + '.%(ext)s',
         'extractaudio': True,
-        'addmetadata': True,
         'prefer-ffmpeg': True,
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
@@ -25,10 +26,10 @@ def mp3_download_from_youtube(url: str, file: MusicFile) -> str:
             'preferredquality': '192',
         }],
     }
-    success: bool = False
-    while not success:
+    tries: int = 4
+    while tries > 0:
         try:
-            with youtube_dl.YoutubeDL(options) as ydl:
+            with yt_dlp.YoutubeDL(options) as ydl:
                 ydl.download([url])
                 temp_name: str = 'output' + rand
                 stream = ffmpeg.input(temp_name + '.m4a')
@@ -43,15 +44,18 @@ def mp3_download_from_youtube(url: str, file: MusicFile) -> str:
                 # adjust volume
                 # mp3_adjust_volume(output_file)
 
-                success = True
+                print("MP3 download successful: " + output_file)
+                return output_file
         except Exception as e:
-            print("MP3 download failed: " + str(e) + " \nRetrying...")
+            print("MP3 download failed: " + str(e) + " \nTries: " + str(tries))
+            tries -= 1
         except KeyboardInterrupt:
-            print("MP3 download interrupted")
-            success = False
+            print("MP3 download interrupted\nTries: " + str(tries))
+            tries -= 1
         except:
-            print("MP3 download failed: no further details, \nRetrying...")
+            print("MP3 download failed: no further details, \nTries: " + str(tries))
+            tries -= 1
 
-    return output_file
+    return ""
 
 

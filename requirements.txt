@@ -1,4 +1,4 @@
-youtube-dl
+yt-dlp
 ffmpeg-python
 pytaglib==1.5.0
 imgui

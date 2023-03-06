@@ -1,5 +1,6 @@
 import uuid
 from .File import *
+from yt_dlp import YoutubeDL
 
 
 def wav_download_from_youtube(url: str, file: MusicFile) -> str:
@@ -23,7 +24,7 @@ def wav_download_from_youtube(url: str, file: MusicFile) -> str:
     success: bool = False
     while not success:
         try:
-            with youtube_dl.YoutubeDL(options) as ydl:
+            with ydl.YoutubeDL(options) as ydl:
                 ydl.download([url])
                 temp_name: str = 'output' + rand
                 stream = ffmpeg.input(temp_name + '.m4a')

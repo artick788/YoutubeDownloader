@@ -40,6 +40,7 @@ def fast_download():
         url = imgui.input_text("URL", url, 256)[1]
         song.artist = imgui.input_text("Artist", song.artist, 256)[1]
         song.songname = imgui.input_text("Songname", song.songname, 256)[1]
+        song.album = imgui.input_text("Album", song.album, 256)[1]
 
 
 
