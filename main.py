@@ -1,11 +1,12 @@
 import glfw
 
 from YoutubeDownloader import MusicFactory as mf
-from YoutubeDownloader import MusicManagerGui as mmg
 from glfw import *
 import imgui
 from imgui.integrations.glfw import GlfwRenderer
 import OpenGL.GL as gl
+
+from YoutubeDownloaderGUI import GUI
 
 def fast_download():
     factory = mf.MusicFactory()
@@ -69,7 +70,8 @@ def fast_download():
 
 
 def main():
-    fast_download()
+    gui: GUI = GUI()
+    gui.run()
 
 
 if __name__ == '__main__':
