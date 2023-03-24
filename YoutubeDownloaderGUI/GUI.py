@@ -27,7 +27,10 @@ class GUI:
         glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 3)
         glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 3)
         self.window = glfw.create_window(self.window_width, self.window_height, self.window_title, None, None)
+        glfw.set_framebuffer_size_callback(self.window, self.resize_callback)
         glfw.make_context_current(self.window)
+        gl.glViewport(0, 0, self.window_width, self.window_height)
+        gl.glClearColor(0.45, 0.55, 0.60, 1)
 
         imgui.create_context()
         imgui.get_io().display_size = self.window_width, self.window_height
@@ -35,7 +38,6 @@ class GUI:
         renderer = GlfwRenderer(self.window)
 
         while not glfw.window_should_close(self.window):
-            gl.glClearColor(0.45, 0.55, 0.60, 1)
             gl.glClear(gl.GL_COLOR_BUFFER_BIT)
 
             glfw.poll_events()
@@ -85,3 +87,9 @@ class GUI:
         if imgui.button("Exit", button_width, button_height):
             glfw.set_window_should_close(self.window, True)
         imgui.end()
+
+    def resize_callback(self, window, width, height):
+        self.window_width = width
+        self.window_height = height
+        imgui.get_io().display_size = width, height
+        gl.glViewport(0, 0, width, height)
