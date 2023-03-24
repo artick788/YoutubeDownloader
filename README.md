@@ -22,3 +22,7 @@ After that, you can run the program by running the following command in the term
 ```
 python3 main.py
 ```
+
+## Note
+As I wrote this program within 2 hours, it will probably not be the most elegant code.
+Also don't expect things like unit tests or documentation. I will probably add them later, but for now, this is it.
