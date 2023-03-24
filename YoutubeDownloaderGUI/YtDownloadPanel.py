@@ -15,19 +15,26 @@ class DownloadPanel:
         self.song.songname = imgui.input_text("Songname", self.song.songname, 256)[1]
         self.song.album = imgui.input_text("Album", self.song.album, 256)[1]
 
-        if imgui.button("Download"):
+        if imgui.button("Download", 100, 20):
             self.factory.download_from_youtube(self.url, self.song)
-            self.url = ""
-            self.song.artist = ""
-            self.song.songname = ""
+            self.clear_values()
         imgui.same_line()
-        if imgui.button("Clear"):
+        if imgui.button("Clear", 100, 20):
             self.url = ""
-            self.song.artist = ""
-            self.song.songname = ""
-        if imgui.button("Back to menu"):
-            return GuiState.MENU
-        if imgui.button("Exit"):
-            return GuiState.EXIT
+            self.clear_values()
+        imgui.new_line()
+        return_state = GuiState.DOWNLOAD
+        if imgui.button("Back to menu", 210, 20):
+            return_state = GuiState.MENU
+        if imgui.button("Exit", 210, 20):
+            return_state = GuiState.EXIT
         imgui.end()
+        return return_state
+
+    def clear_values(self):
+        self.url = ""
+        self.song.artist = ""
+        self.song.songname = ""
+        self.song.album = ""
+
 

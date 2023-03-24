@@ -16,7 +16,7 @@ class MusicFile:
         self.artist: str = ""
         self.songname: str = ""
         self.album: str = ""
-        self.format: int = FileFormat.WAV
+        self.format: int = FileFormat.MP3
 
     def save_tags(self, file_path: str):
         f = taglib.File(file_path)
