@@ -2,6 +2,7 @@ import imgui
 from YoutubeDownloader import MusicFactory as mf
 from .GuiState import GuiState
 
+
 class DownloadPanel:
     def __init__(self, factory: mf.MusicFactory):
         self.factory = factory

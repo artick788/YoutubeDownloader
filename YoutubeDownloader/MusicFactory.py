@@ -19,14 +19,14 @@ class MusicFactory:
     }
 
     def __init__(self):
-        self.__is_setup: bool = False
-        self.__check_binaries()
-        self.__thread_pool = ThreadPoolExecutor(max_workers=5, thread_name_prefix="MusicFactory")
+        self.is_setup: bool = False
+        self.check_binaries()
+        self.thread_pool = ThreadPoolExecutor(max_workers=5, thread_name_prefix="MusicFactory")
 
     def __del__(self):
-        self.__thread_pool.shutdown(wait=True)
+        self.thread_pool.shutdown(wait=True)
 
-    def __check_binaries(self):
+    def check_binaries(self):
         # check if binaries are in root
         found: bool = True
         for binary in self.BINARIES.values():
@@ -34,7 +34,7 @@ class MusicFactory:
                 found = False
                 break
         if found:
-            self.__is_setup = True
+            self.is_setup = True
             return
         else:
             # check if binaries are in bin folder
@@ -46,30 +46,31 @@ class MusicFactory:
                 else:
                     shutil.copy(self.BIN_DIR + "/" + binary, binary)
             if found:
-                self.__is_setup = True
+                self.is_setup = True
                 return
             else:
                 raise Exception("Binaries not found")
 
     def download_from_youtube(self, url: str, music_file: MusicFile):
-        if self.__is_setup:
+        if self.is_setup:
+            # make sure these are copied and not referenced
             c_url = copy.deepcopy(url)
             c_music_file = copy.deepcopy(music_file)
             if music_file.format == FileFormat.WAV:
-                self.__thread_pool.submit(wav_download_from_youtube, c_url, c_music_file)
+                self.thread_pool.submit(wav_download_from_youtube, c_url, c_music_file)
             elif music_file.format == FileFormat.MP3:
-                self.__thread_pool.submit(mp3_download_from_youtube, c_url, c_music_file)
+                self.thread_pool.submit(mp3_download_from_youtube, c_url, c_music_file)
         else:
             raise Exception("Factory is not setup properly")
 
     def tag_file(self, file_path, music_file: MusicFile):
-        if self.__is_setup:
+        if self.is_setup:
             music_file.save_tags(file_path)
         else:
             raise Exception("Factory is not setup properly")
 
     def adjust_volume(self, file_path, format: FileFormat):
-        if self.__is_setup:
+        if self.is_setup:
             if format == FileFormat.WAV:
                 pass
             elif format == FileFormat.MP3:
