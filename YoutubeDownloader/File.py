@@ -10,7 +10,6 @@ class FileFormat:
     MP3 = 2
 
 
-
 class MusicFile:
     def __init__(self):
         self.artist: str = ""

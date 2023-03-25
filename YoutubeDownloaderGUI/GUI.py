@@ -6,6 +6,8 @@ import OpenGL.GL as gl
 from .YtDownloadPanel import DownloadPanel
 from .GuiState import GuiState
 
+import tkinter as tk
+
 
 class GUI:
     def __init__(self, window_width: int = 800, window_height: int = 600):
@@ -17,6 +19,10 @@ class GUI:
         self.factory = mf.MusicFactory()
 
         self.state = GuiState.MENU
+
+        # only use tkinter for file dialogs
+        root = tk.Tk()
+        root.withdraw()
 
         if not glfw.init():
             raise Exception("glfw can not be initialized!")
