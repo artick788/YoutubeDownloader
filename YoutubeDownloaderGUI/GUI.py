@@ -4,6 +4,7 @@ import imgui
 from imgui.integrations.glfw import GlfwRenderer
 import OpenGL.GL as gl
 from .YtDownloadPanel import DownloadPanel
+from .TagExistingFilePanel import TagExistingFilePanel
 from .GuiState import GuiState
 
 import tkinter as tk
@@ -28,6 +29,7 @@ class GUI:
             raise Exception("glfw can not be initialized!")
 
         self.download_panel = DownloadPanel(self.factory)
+        self.tag_existing_panel = TagExistingFilePanel(self.factory)
 
     def run(self):
         glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 3)
@@ -57,8 +59,8 @@ class GUI:
                 self.menu()
             elif self.state == GuiState.DOWNLOAD:
                 self.state = self.download_panel.draw()
-            elif self.state == GuiState.TAG_EXSISTING:
-                pass
+            elif self.state == GuiState.TAG_EXISTING:
+                self.state = self.tag_existing_panel.draw()
             elif self.state == GuiState.EXIT:
                 glfw.set_window_should_close(self.window, True)
 
@@ -85,7 +87,7 @@ class GUI:
         imgui.set_cursor_pos_x(button_x)
         imgui.set_cursor_pos_y(button_y)
         if imgui.button("Tag existing file", button_width, button_height):
-            self.state = GuiState.TAG_EXSISTING
+            self.state = GuiState.TAG_EXISTING
 
         button_y += button_height + 30
         imgui.set_cursor_pos_x(button_x)
