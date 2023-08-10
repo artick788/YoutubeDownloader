@@ -69,6 +69,14 @@ class MusicFactory:
         else:
             raise Exception("Factory is not setup properly")
 
+    def read_file_tag(self, file_path) -> MusicFile:
+        if self.is_setup:
+            file = MusicFile()
+            file.read_tags(file_path)
+            return file
+        else:
+            raise Exception("Factory is not setup properly")
+
     def adjust_volume(self, file_path, format: FileFormat):
         if self.is_setup:
             if format == FileFormat.WAV:
