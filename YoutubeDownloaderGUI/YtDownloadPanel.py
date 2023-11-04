@@ -1,3 +1,5 @@
+from tkinter import filedialog
+
 import imgui
 from YoutubeDownloader import MusicFactory as mf
 from .GuiState import GuiState
@@ -7,6 +9,7 @@ class DownloadPanel:
     def __init__(self, factory: mf.MusicFactory):
         self.factory = factory
         self.url = ""
+        self.output_path = ""
         self.song = mf.MusicFile()
 
         self.reset_artist: bool = True
@@ -40,8 +43,15 @@ class DownloadPanel:
         imgui.same_line()
         self.reset_key = imgui.checkbox("Reset Key", self.reset_key)[1]
 
+        imgui.new_line()
+        if imgui.button("set output path", 210, 20):
+            self.output_path = filedialog.askdirectory()
+        if self.output_path != "":
+            imgui.text("Output path: " + self.output_path)
+        imgui.new_line()
+
         if imgui.button("Download", 100, 20):
-            self.factory.download_from_youtube(self.url, self.song)
+            self.factory.download_from_youtube(self.url, self.song, self.output_path)
             self.clear_values()
         imgui.same_line()
         if imgui.button("Clear", 100, 20):

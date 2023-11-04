@@ -51,15 +51,16 @@ class MusicFactory:
             else:
                 raise Exception("Binaries not found")
 
-    def download_from_youtube(self, url: str, music_file: MusicFile):
+    def download_from_youtube(self, url: str, music_file: MusicFile, output_dir: str = ""):
         if self.is_setup:
             # make sure these are copied and not referenced
             c_url = copy.deepcopy(url)
             c_music_file = copy.deepcopy(music_file)
+            c_output_dir = copy.deepcopy(output_dir)
             if music_file.format == FileFormat.WAV:
                 self.thread_pool.submit(wav_download_from_youtube, c_url, c_music_file)
             elif music_file.format == FileFormat.MP3:
-                self.thread_pool.submit(mp3_download_from_youtube, c_url, c_music_file)
+                self.thread_pool.submit(mp3_download_from_youtube, c_url, c_music_file, c_output_dir)
         else:
             raise Exception("Factory is not setup properly")
 
