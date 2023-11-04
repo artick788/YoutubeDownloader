@@ -1,23 +1,14 @@
 import imgui
 from YoutubeDownloader import MusicFactory as mf
 from .GuiState import GuiState
-import tkinter as tk
 from tkinter import filedialog
-
-tkInit: bool = False
 
 
 class TagExistingFilePanel:
     def __init__(self, factory: mf.MusicFactory):
-        global tkInit
         self.factory = factory
         self.tag = None
         self.file_path = ""
-
-        if not tkInit:
-            root = tk.Tk()
-            root.withdraw()
-            tkInit = True
 
     def draw(self):
         return_state = GuiState.TAG_EXISTING
