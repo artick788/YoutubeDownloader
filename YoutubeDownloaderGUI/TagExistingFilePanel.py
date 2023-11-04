@@ -27,6 +27,7 @@ class TagExistingFilePanel:
             self.file_path = filedialog.askopenfilename()
             self.tag = self.factory.read_file_tag(self.file_path)
         if self.tag is not None:
+            imgui.text("File: " + self.file_path)
             imgui.text("Tags")
             self.tag.artist = imgui.input_text("Artist", self.tag.artist, 256)[1]
             self.tag.songname = imgui.input_text("Songname", self.tag.songname, 256)[1]
@@ -37,6 +38,8 @@ class TagExistingFilePanel:
 
             if imgui.button("Save", 100, 20):
                 self.tag.save_tags(self.file_path)
+                self.tag = None
+                self.file_path = ""
 
         imgui.new_line()
         if imgui.button("Back to menu", 210, 20):

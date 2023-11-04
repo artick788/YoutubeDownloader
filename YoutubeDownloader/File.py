@@ -19,14 +19,22 @@ class MusicFile:
         self.key: str = ""
         self.format: int = FileFormat.MP3
 
+    def _get_value(self, field: str, f) -> str:
+        if field in f.tags:
+            l = f.tags[field]
+            if len(l) > 0:
+                return str(l[0])
+
+        return ""
+
     def read_tags(self, file_path: str):
         f = taglib.File(file_path)
-        self.artist = f.tags.get("ARTIST", [""])[0]
-        self.songname = f.tags.get("TITLE", [""])[0]
-        self.album = f.tags.get("ALBUM", [""])[0]
-        self.genre = f.tags.get("GENRE", [""])[0]
-        self.bpm = f.tags.get("BPM", [""])[0]
-        self.key = f.tags.get("TKEY", [""])[0]
+        self.artist = self._get_value("ARTIST", f)
+        self.songname = self._get_value("TITLE", f)
+        self.album = self._get_value("ALBUM", f)
+        self.genre = self._get_value("GENRE", f)
+        self.bpm = self._get_value("BPM", f)
+        self.key = self._get_value("TKEY", f)
 
     def save_tags(self, file_path: str):
         f = taglib.File(file_path)
